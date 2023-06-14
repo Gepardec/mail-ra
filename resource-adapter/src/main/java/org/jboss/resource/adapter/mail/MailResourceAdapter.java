@@ -16,21 +16,20 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail;
 
 
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.*;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.spi.work.WorkException;
+import jakarta.resource.spi.work.WorkManager;
 import org.jboss.logging.Logger;
+import org.jboss.resource.adapter.mail.inflow.MailActivation;
+import org.jboss.resource.adapter.mail.inflow.MailActivationSpec;
+import org.jboss.resource.adapter.mail.inflow.NewMsgsWorker;
 
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.ActivationSpec;
-import javax.resource.spi.BootstrapContext;
-import javax.resource.spi.Connector;
-import javax.resource.spi.ResourceAdapter;
-import javax.resource.spi.ResourceAdapterInternalException;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
-import javax.resource.spi.work.WorkException;
-import javax.resource.spi.work.WorkManager;
 import javax.transaction.xa.XAResource;
 import java.util.concurrent.ConcurrentHashMap;
 

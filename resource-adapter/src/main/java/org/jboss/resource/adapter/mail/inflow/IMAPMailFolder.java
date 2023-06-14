@@ -16,33 +16,26 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
 
-import javax.mail.Flags.Flag;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import jakarta.mail.*;
+import jakarta.mail.search.FlagTerm;
 
 /**
- * Represents a POP3 mail folder
+ * An IMAP mail folder
  *
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
+ * @author <a href="mailto:mluksa@redhat.com">Marko Luksa</a>
  */
-public class POP3MailFolder extends MailFolder {
-    private boolean flush;
-
+public class IMAPMailFolder extends MailFolder {
     /**
      * Constructor
      *
-     * @param spec The mail activation
+     * @param spec The mail activation spec
      */
-    public POP3MailFolder(MailActivationSpec spec) {
+    public IMAPMailFolder(MailActivationSpec spec) {
         super(spec);
-        this.flush = spec.isFlush();
     }
 
     /**
@@ -50,45 +43,37 @@ public class POP3MailFolder extends MailFolder {
      *
      * @param folder The folder
      * @return The messages
-     * @throws javax.mail.MessagingException Thrown if there is an error
+     * @throws MessagingException Thrown if there is an error
      */
     protected Message[] getMessages(Folder folder) throws MessagingException {
-        return folder.getMessages();
+        Message[] result = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
+
+        if (result != null && result.length > 0) { return result; }
+
+        return new Message[0];
     }
 
     /**
-     * Open a store
-     *
-     * @param session The mail session
-     * @return The store
-     * @throws javax.mail.NoSuchProviderException Thrown if there is no provider
+     * {@inheritDoc}
      */
     protected Store openStore(Session session) throws NoSuchProviderException {
-        return session.getStore("pop3");
+        return session.getStore("imap");
     }
 
     /**
-     * Mark a message as seen
-     *
-     * @param message The messages
-     * @throws javax.mail.MessagingException Thrown if there is an error
+     * {@inheritDoc}
      */
     protected void markMessageSeen(Message message) throws MessagingException {
-        message.setFlag(Flag.DELETED, true);
+        message.setFlag(Flags.Flag.SEEN, true);
     }
 
     /**
-     * Close a store
-     *
-     * @param success Check for successful close
-     * @param store   The store
-     * @param folder  The folder
-     * @throws javax.mail.MessagingException Thrown if there is an error
+     * {@inheritDoc}
      */
     protected void closeStore(boolean success, Store store, Folder folder) throws MessagingException {
         try {
             if (folder != null && folder.isOpen()) {
-                folder.close(success && flush);
+                folder.close(success);
             }
         } finally {
             if (store != null && store.isConnected()) {

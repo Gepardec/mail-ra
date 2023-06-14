@@ -16,15 +16,11 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
 
+import jakarta.resource.spi.work.*;
 import org.jboss.logging.Logger;
 
-import javax.resource.spi.work.Work;
-import javax.resource.spi.work.WorkEvent;
-import javax.resource.spi.work.WorkException;
-import javax.resource.spi.work.WorkListener;
-import javax.resource.spi.work.WorkManager;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**

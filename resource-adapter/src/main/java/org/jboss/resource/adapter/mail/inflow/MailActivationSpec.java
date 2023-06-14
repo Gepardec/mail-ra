@@ -16,15 +16,12 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
+
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.*;
 
 import java.io.Serializable;
-import javax.resource.ResourceException;
-import javax.resource.spi.Activation;
-import javax.resource.spi.ActivationSpec;
-import javax.resource.spi.ConfigProperty;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.ResourceAdapter;
 
 
 
@@ -354,7 +351,7 @@ public class MailActivationSpec implements ActivationSpec, Serializable {
      * Set the resource adapter
      *
      * @param ra The value
-     * @throws javax.resource.ResourceException Thrown if an error occurs
+     * @throws jakarta.resource.ResourceException Thrown if an error occurs
      */
     public void setResourceAdapter(ResourceAdapter ra) throws ResourceException {
         this.ra = ra;
@@ -363,7 +360,7 @@ public class MailActivationSpec implements ActivationSpec, Serializable {
     /**
      * Validate
      *
-     * @throws javax.resource.spi.InvalidPropertyException Thrown if an error occurs
+     * @throws jakarta.resource.spi.InvalidPropertyException Thrown if an error occurs
      */
     public void validate() throws InvalidPropertyException {
     }

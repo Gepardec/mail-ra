@@ -16,36 +16,22 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
 
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import jakarta.mail.Message;
 
 /**
- * Represents a POP3s mail folder
+ * The message inflow interface an MDB must implement to receive messages
+ * from the JavaMail adaptor.
  *
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  */
-public class POP3sMailFolder extends POP3MailFolder {
+public interface MailListener {
     /**
-     * Constructor
+     * Calls with a message
      *
-     * @param spec The mail activation
+     * @param msg The message
      */
-    public POP3sMailFolder(MailActivationSpec spec) {
-        super(spec);
-    }
-
-    /**
-     * Open a store
-     *
-     * @param session The mail session
-     * @return The store
-     * @throws javax.mail.NoSuchProviderException Thrown if there is no provider
-     */
-    protected Store openStore(Session session) throws NoSuchProviderException {
-        return session.getStore("pop3s");
-    }
+    void onMessage(Message msg);
 }

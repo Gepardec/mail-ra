@@ -16,16 +16,12 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
+
+import jakarta.mail.*;
 
 import java.util.Iterator;
 import java.util.Properties;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
 
 /**
  * An encapsulation of a mail store folder used by the MailActivation.run to
@@ -36,7 +32,7 @@ import javax.mail.Store;
  */
 public abstract class MailFolder implements Iterator {
     private Session session;
-    private Store store;
+    private Store  store;
     private Folder folder;
     private String mailServer;
     private String folderName;

@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package org.wildfly.mail.ra;
+package org.jboss.resource.adapter.mail.inflow;
+
+import jakarta.mail.Message;
+import jakarta.resource.spi.endpoint.MessageEndpoint;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.spi.work.Work;
+import org.jboss.logging.Logger;
 
 import java.lang.reflect.Method;
-import javax.mail.Message;
-import javax.resource.spi.endpoint.MessageEndpoint;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
-import javax.resource.spi.work.Work;
-
-import org.jboss.logging.Logger;
 
 /**
  * The MailActivation encapsulates a MailResourceAdapter#endpointActivation
